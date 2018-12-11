@@ -1,5 +1,3 @@
-package domeny.niema.klient;
-
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
