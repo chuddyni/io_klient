@@ -1,8 +1,8 @@
 package domeny.niema.klient;
 
 import android.app.Application;
+
 import com.parse.Parse;
-import com.parse.ParseInstallation;
 
 public class App extends Application {
 
@@ -16,11 +16,6 @@ public class App extends Application {
                 .clientKey(getString(R.string.back4app_client_key))
                 .server(getString(R.string.back4app_server_url))
                 .build()
-
-
-
         );
-
-
     }
 }
