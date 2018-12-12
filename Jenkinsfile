@@ -24,7 +24,7 @@ pipeline {
 
     post {
         always {
-            sh 'touch **/test-results/testReleaseUnitTest/*.xml'
+            sh 'touch io_klient_pipeline@2/app/build/test-results/testReleaseUnitTest/*.xml'
             junit '**/test-results/testReleaseUnitTest/*.xml'
         }
     }
