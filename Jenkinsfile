@@ -24,7 +24,9 @@ pipeline {
 
     post {
         always {
-            sh 'touch io_klient_pipeline@2/app/build/test-results/testReleaseUnitTest/*.xml'
+            sh 'cd io_klient_pipeline@2/app/build/test-results/testReleaseUnitTest'
+            sh 'touch *.xml'
+            sh 'cd /var/lib/jenkins/workspace/io_klient_pipeline'
             junit '**/test-results/testReleaseUnitTest/*.xml'
         }
     }
