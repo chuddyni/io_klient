@@ -24,6 +24,7 @@ pipeline {
 
     post {
         always {
+            sh 'touch **/test-results/testReleaseUnitTest/*.xml'
             junit '**/test-results/testReleaseUnitTest/*.xml'
         }
     }
