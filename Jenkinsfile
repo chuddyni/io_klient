@@ -19,5 +19,12 @@ pipeline {
                 sh './gradlew build'
             }
         }
+
+    }
+
+    post {
+        always {
+            junit '**/reports/junit/*.xml'
+        }
     }
 }
