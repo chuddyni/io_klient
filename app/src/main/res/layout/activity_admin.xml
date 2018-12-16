@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdminPanel">
+
+    <Button
+        android:id="@+id/logout_button"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="41dp"
+        android:layout_alignTop="@+id/show_reservations"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toStartOf="@+id/info"
+        android:layout_toEndOf="@+id/show_reservations"
+        android:text="Logout"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/info"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="41dp"
+        android:layout_alignTop="@+id/show_reservations"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="0dp"
+        android:text="INFO"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/add"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="109dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="273dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="238dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="add"
+        android:typeface="serif" />
+
+    <Button
+        android:id="@+id/view_all"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="84dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="183dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="View Travels" />
+
+    <Button
+        android:id="@+id/modify"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="95dp"
+        android:layout_marginBottom="239dp"
+        android:clickable="false"
+        android:fontFamily="sans-serif-condensed"
+        android:text="modify"
+        android:typeface="serif" />
+
+    <Button
+        android:id="@+id/show_reservations"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/modify"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="245dp"
+        android:text="Show reservations" />
+
+    <ScrollView
+        android:id="@+id/SView"
+        android:layout_width="364dp"
+        android:layout_height="281dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="10dp">
+
+        <LinearLayout
+            android:id="@+id/layoutinside"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+        </LinearLayout>
+    </ScrollView>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="169dp"
+        android:layout_below="@+id/view_all"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="-243dp">
+
+        <Button
+            android:id="@+id/mod_title"
+            android:layout_width="106dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/rounded1"
+            android:fontFamily="serif"
+            android:text="Title"
+            android:textSize="10sp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/mod_summary"
+            android:layout_width="106dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="156dp"
+            android:background="@drawable/rounded1"
+            android:text="Summary"
+            android:textSize="10sp"
+            android:typeface="serif"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/mod_image"
+            android:layout_width="75dp"
+            android:layout_height="41dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="64dp"
+            android:background="@drawable/rounded1"
+            android:text="Image"
+            android:textSize="10sp"
+            android:typeface="serif"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/mod_price"
+            android:layout_width="72dp"
+            android:layout_height="41dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="64dp"
+            android:background="@drawable/rounded1"
+            android:fontFamily="serif"
+            android:text="Price"
+            android:textSize="10sp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/datepicker"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/datepicker"
+            android:layout_width="72dp"
+            android:layout_height="41dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginBottom="64dp"
+            android:background="@drawable/rounded1"
+            android:text="Date"
+            android:textSize="10sp"
+            android:typeface="serif"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/mod_image" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</RelativeLayout>

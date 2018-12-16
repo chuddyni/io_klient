@@ -1,14 +1,15 @@
 package domeny.niema.klient;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.LogInCallback;
@@ -33,9 +34,8 @@ public class LoginActivity extends AppCompatActivity {
         );
 
 
-
-        usernameView = (EditText) findViewById(R.id.username);
-        passwordView = (EditText) findViewById(R.id.password);
+        usernameView = findViewById(R.id.username);
+        passwordView = findViewById(R.id.password);
 
         final Button login_button = findViewById(R.id.login_button);
         login_button.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        final Button signup_button = findViewById(R.id.signup_button);
+        final TextView signup_button = findViewById(R.id.signup_button);
         signup_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,11 +118,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean isEmpty(EditText text) {
-        if (text.getText().toString().trim().length() > 0) {
-            return false;
-        } else {
-            return true;
-        }
+        return text.getText().toString().trim().length() <= 0;
     }
 
     private void alertDisplayer(String title,String message){
@@ -133,10 +129,17 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
+                        if (usernameView.getText().toString().equals("admin")) {
+                            Intent intent = new Intent(LoginActivity.this, AdminPanel.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
 
-                        Intent intent = new Intent(LoginActivity.this, TravelsForUsers.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
+
+                        } else {
+                            Intent intent = new Intent(LoginActivity.this, TravelsForUsers.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        }
                     }
                 });
         AlertDialog ok = builder.create();

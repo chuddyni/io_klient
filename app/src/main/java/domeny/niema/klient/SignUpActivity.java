@@ -1,19 +1,16 @@
 package domeny.niema.klient;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -39,7 +36,7 @@ public class SignUpActivity extends AppCompatActivity {
 
 
         );
-        final Button back_button = findViewById(R.id.back_button);
+        final TextView back_button = findViewById(R.id.back_button);
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,9 +51,9 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-        usernameView = (EditText) findViewById(R.id.username);
-        passwordView = (EditText) findViewById(R.id.password);
-        passwordAgainView = (EditText) findViewById(R.id.passwordAgain);
+        usernameView = findViewById(R.id.username);
+        passwordView = findViewById(R.id.password);
+        passwordAgainView = findViewById(R.id.passwordAgain);
 
 
 
@@ -132,20 +129,11 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private boolean isEmpty(EditText text) {
-        if (text.getText().toString().trim().length() > 0) {
-            return false;
-        } else {
-            return true;
-        }
+        return text.getText().toString().trim().length() <= 0;
     }
 
     private boolean isMatching(EditText text1, EditText text2){
-        if(text1.getText().toString().equals(text2.getText().toString())){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return text1.getText().toString().equals(text2.getText().toString());
     }
 
     private void alertDisplayer(String title,String message){
