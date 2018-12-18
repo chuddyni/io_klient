@@ -7,50 +7,37 @@
     tools:context=".TravelsForUsers">
 
     <Button
-        android:id="@+id/info"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="124dp"
-        android:layout_marginBottom="6dp"
-        android:text="INFO"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
         android:id="@+id/view_all"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="84dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="227dp"
-        android:layout_marginBottom="4dp"
-        android:fontFamily="sans-serif-condensed"
+        android:layout_marginBottom="87dp"
+        android:fontFamily="serif"
         android:text="View Travels" />
 
     <Button
         android:id="@+id/show_reservations"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="181dp"
-        android:layout_marginBottom="67dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="44dp"
+        android:fontFamily="serif"
         android:text="Show reservations" />
 
     <ScrollView
         android:id="@+id/SView"
-        android:layout_width="374dp"
-        android:layout_height="436dp"
+        android:layout_width="wrap_content"
+        android:layout_height="427dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="2dp">
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="1dp">
 
         <LinearLayout
             android:id="@+id/layoutinside"
@@ -65,15 +52,25 @@
     <Button
         android:id="@+id/logout_button"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="109dp"
-        android:layout_height="37dp"
-        android:layout_alignParentStart="true"
+        android:layout_width="205dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="273dp"
-        android:layout_marginEnd="2dp"
-        android:layout_marginBottom="12dp"
+        android:fontFamily="serif"
         android:text="Logout"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/info"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="181dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="3dp"
+        android:layout_toStartOf="@+id/logout_button"
+        android:fontFamily="serif"
+        android:text="INFO"
         app:layout_constraintStart_toStartOf="parent" />
 
 

@@ -30,7 +30,7 @@
     <color name="indigo_primary_dark">#303F9F</color>
     <color name="blue_primary">#2196F3</color>
     <color name="blue_primary_dark">#1976D2</color>
-    <color name="light_blue_primary">#03A9F4</color>
+    <color name="light_blue_primary">#3f5f9cee</color>
     <color name="light_blue_primary_dark">#0288D1</color>
     <color name="cyan_primary">#00BCD4</color>
     <color name="cyan_primary_dark">#0097A7</color>

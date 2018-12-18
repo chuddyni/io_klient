@@ -109,7 +109,7 @@ public class TravelsForUsers extends AppCompatActivity {
 
 
         TextView title = new TextView(getApplicationContext());
-        title.setText("Hello " + ParseUser.getCurrentUser());
+        title.setText("Hello Traveler!");
         title.setTypeface(null, Typeface.BOLD);
         title.setTextSize(18);
         LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, 100);
@@ -191,11 +191,9 @@ public class TravelsForUsers extends AppCompatActivity {
                         Drawable roundDrawable = getResources().getDrawable(R.drawable.rounded2);
 
 
-                        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                            b.setBackgroundDrawable(roundDrawable);
-                        } else {
+
                             b.setBackground(roundDrawable);
-                        }
+
 
 
                         ll.addView(b);
@@ -262,7 +260,7 @@ public class TravelsForUsers extends AppCompatActivity {
                                 TextView spacja3 = new TextView(getApplicationContext());
                                 ll.addView(spacja3);
                                 ImageView image = new ImageView(TravelsForUsers.this);
-                                LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(720, 405);
+                                LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 720);
 
                                 params1.gravity = Gravity.CENTER;
                                 image.setLayoutParams(params1);
