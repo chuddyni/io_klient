@@ -92,13 +92,13 @@
 
     <ScrollView
         android:id="@+id/SView"
-        android:layout_width="364dp"
-        android:layout_height="281dp"
+        android:layout_width="wrap_content"
+        android:layout_height="276dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp">
 
         <LinearLayout

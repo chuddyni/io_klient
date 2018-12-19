@@ -33,7 +33,6 @@ public class LoginActivity extends AppCompatActivity {
 
         );
 
-
         usernameView = findViewById(R.id.username);
         passwordView = findViewById(R.id.password);
 
@@ -77,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-                            alertDisplayer("Sucessful Login","Welcome back " + usernameView.getText().toString() + "!");
+                            alertDisplayer(title,message + usernameView.getText().toString() + "!");
 
                         } else {
                             dlg.dismiss();
