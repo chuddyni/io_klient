@@ -61,6 +61,15 @@ public class AdminPanel extends AppCompatActivity {
     Boolean imgcheck = false;
     private int mYear, mMonth, mDay;
     private Button info_button;
+
+
+    private Button show_reservations;
+    private View.OnClickListener show_reservationsOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            show_reservations_buttonClicked();
+        }
+    };
     //Aleks DO TESTOW UTWORZONE METODY
     //logout button listener
     private Button logout_button;
@@ -161,7 +170,7 @@ public class AdminPanel extends AppCompatActivity {
         mod_date = findViewById(R.id.datepicker);
         add_travel = findViewById(R.id.add);
         modify.setEnabled(false);
-
+        show_reservations = findViewById(R.id.show_reservations);
 
         ll = findViewById(R.id.layoutinside);
 
@@ -191,7 +200,7 @@ public class AdminPanel extends AppCompatActivity {
         info_button.setOnClickListener(info_buttonOnClickListener);
         mod_date.setOnClickListener(mod_dateOnClickListener);
         add_travel.setOnClickListener(add_travelOnClickListener);
-
+        show_reservations.setOnClickListener(show_reservationsOnClickListener);
 
     }
 
@@ -388,6 +397,102 @@ public class AdminPanel extends AppCompatActivity {
     public Boolean checking() {
         return pricecheck[0] == true && titlecheck[0] == true && summarycheck[0] == true && datecheck == true;
     }
+
+    private void show_reservations_buttonClicked() {
+
+        ll.removeAllViews();
+        TextView info = new TextView(getApplicationContext());
+        info.setText("Click on button to change status to Confirmed");
+        ll.addView(info);
+
+
+        ParseQuery<ParseObject> queryx = ParseQuery.getQuery("Reservations");
+
+        queryx.findInBackground(new FindCallback<ParseObject>() {
+
+            @Override
+            public void done(List<ParseObject> Zarezerwowane, ParseException e) {
+                for (final ParseObject rezerwy : Zarezerwowane) {
+
+                    final Button b = new Button(getApplicationContext());
+
+
+                    b.setText("Username: " + rezerwy.getString("username") + "\n" + rezerwy.getString("travel_name") + "\n" + "Purchased at: " + rezerwy.getCreatedAt() + "\n" + "Current status: " + rezerwy.getString("status"));
+                    if (rezerwy.getString("status").equals("Confirmed"))
+                        b.setEnabled(false);
+
+                    b.setTextColor(Color.WHITE);
+
+
+                    Drawable roundDrawable = getResources().getDrawable(R.drawable.rounded2);
+
+
+                    b.setBackground(roundDrawable);
+
+
+                    ll.addView(b);
+                    TextView spacja0 = new TextView(getApplicationContext());
+                    ll.addView(spacja0);
+
+
+                    b.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(final View v) {
+                            AlertDialog.Builder alert = new AlertDialog.Builder(AdminPanel.this);
+
+                            alert.setTitle("Status changer");
+                            alert.setMessage("Confirm this travel?");
+
+// Set an EditText view to get user input
+
+
+                            alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+
+                                    rezerwy.put("status", "Confirmed");
+
+                                    final ProgressDialog dlg = new ProgressDialog(AdminPanel.this);
+                                    dlg.setTitle("Please, wait a moment.");
+                                    dlg.setMessage("Changing status");
+                                    dlg.show();
+
+                                    rezerwy.saveInBackground(new SaveCallback() {
+                                        public void done(ParseException e) {
+                                            if (e == null) {
+
+                                                dlg.dismiss();
+                                                show_reservations_buttonClicked();
+
+                                            } else {
+
+                                                dlg.dismiss();
+                                                show_reservations_buttonClicked();
+                                                b.setEnabled(false);
+
+                                            }
+                                        }
+                                    });
+
+                                }
+                            });
+
+
+                            alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    // Canceled.
+                                }
+                            });
+
+                            AlertDialog kukle = alert.show();
+
+
+                        }
+                    });
+                }
+            }
+        });
+    }
+
     private void info_buttonClicked() {
         ll.removeAllViews();
         modify.setEnabled(false);

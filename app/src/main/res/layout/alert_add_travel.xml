@@ -11,6 +11,8 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
         android:text="Title" />
 
@@ -26,35 +28,24 @@
         android:id="@+id/price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:digits="0123456789."
         android:inputType="number"
-        android:text="0" />
-
-    <Button
-        android:id="@+id/imageadd"
-        android:layout_width="344dp"
-        android:layout_height="31dp"
-        android:background="@drawable/rounded2"
-        android:enabled="true"
-        android:text="Pick image"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="14sp"
-
-        android:typeface="serif"
-        android:visibility="visible" />
+        android:text="Price" />
 
     <Button
         android:id="@+id/dateadd"
-        android:layout_width="344dp"
-        android:layout_height="33dp"
-        android:background="@drawable/rounded2"
-        android:enabled="true"
-        android:text="Pick date"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="14sp"
-        android:typeface="serif"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Pick Date" />
 
-        android:visibility="visible" />
+    <Button
+        android:id="@+id/imageadd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:text="Pick Image" />
 
     <Button
         android:id="@+id/verify"

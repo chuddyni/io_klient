@@ -28,6 +28,7 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -42,6 +43,13 @@ public class TravelsForUsers extends AppCompatActivity {
     ParseObject current_travel;
     private int mYear, mMonth, mDay;
 
+    private Button show_reservations;
+    private View.OnClickListener show_reservationsOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            show_reservations_buttonClicked();
+        }
+    };
     private Button info_button;
     //Aleks DO TESTOW UTWORZONE METODY
     //logout button listener
@@ -75,7 +83,7 @@ public class TravelsForUsers extends AppCompatActivity {
         setContentView(R.layout.activity_user);
         logout_button = findViewById(R.id.logout_button);
         view_all = findViewById(R.id.view_all);
-
+        show_reservations = findViewById(R.id.show_reservations);
         info_button = findViewById(R.id.info);
 
 
@@ -98,7 +106,7 @@ public class TravelsForUsers extends AppCompatActivity {
 
         logout_button.setOnClickListener(logout_buttonOnClickListener);
         view_all.setOnClickListener(view_allOnClickListener);
-
+        show_reservations.setOnClickListener(show_reservationsOnClickListener);
         info_button.setOnClickListener(info_buttonOnClickListener);
 
 
@@ -167,11 +175,144 @@ public class TravelsForUsers extends AppCompatActivity {
 
     }
 
+    private void show_reservations_buttonClicked() {
+
+        ll.removeAllViews();
+
+
+        ParseQuery<ParseObject> queryx = ParseQuery.getQuery("Reservations");
+        queryx.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
+        queryx.findInBackground(new FindCallback<ParseObject>() {
+
+            @Override
+            public void done(List<ParseObject> Zarezerwowane, ParseException e) {
+                for (final ParseObject rezerwy : Zarezerwowane) {
+
+                    final Button b = new Button(getApplicationContext());
+
+
+                    b.setText(rezerwy.getString("travel_name") + "\n" + rezerwy.getDate("date") + "\n" + "Status: " + rezerwy.getString("status"));
+                    b.setTextColor(Color.WHITE);
+
+
+                    Drawable roundDrawable = getResources().getDrawable(R.drawable.rounded2);
+
+
+                    b.setBackground(roundDrawable);
+
+
+                    ll.addView(b);
+                    TextView spacja0 = new TextView(getApplicationContext());
+                    ll.addView(spacja0);
+
+                    ParseQuery<ParseObject> queryxx = ParseQuery.getQuery("Trip");
+                    queryxx.whereEqualTo("title", rezerwy.getString("travel_name"));
+                    queryxx.getFirstInBackground(new GetCallback<ParseObject>() {
+                        public void done(final ParseObject Travel, ParseException e) {
+                            if (Travel == null) {
+                                Log.d("score", "The getFirst request failed.");
+                            } else {
+                                b.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(final View v) {
+                                        ll.removeAllViews();
+
+                                        current_travel = Travel;
+
+                                        TextView title = new TextView(getApplicationContext());
+                                        title.setText("Travel Title:");
+
+                                        title.setTextSize(18);
+                                        ll.addView(title);
+                                        title.setTypeface(null, Typeface.BOLD);
+                                        TextView title1 = new TextView(getApplicationContext());
+                                        title1.setText(Travel.getString("title"));
+                                        ll.addView(title1);
+
+
+                                        TextView spacja = new TextView(getApplicationContext());
+                                        ll.addView(spacja);
+                                        TextView status1 = new TextView(getApplicationContext());
+                                        status1.setText("Reservation status (queue/confirmed): ");
+                                        status1.setTypeface(null, Typeface.BOLD);
+                                        ll.addView(status1);
+                                        TextView status = new TextView(getApplicationContext());
+                                        status.setText(rezerwy.getString("status"));
+                                        ll.addView(status);
+                                        TextView spacja7 = new TextView(getApplicationContext());
+                                        ll.addView(spacja7);
+                                        TextView summary = new TextView(getApplicationContext());
+                                        String TravelSummary = Travel.getString("summary");
+                                        summary.setText("Travel Description:");
+                                        summary.setTypeface(null, Typeface.BOLD);
+                                        ll.addView(summary);
+                                        TextView summary1 = new TextView(getApplicationContext());
+                                        summary1.setText(TravelSummary);
+
+
+                                        ll.addView(summary1);
+                                        TextView spacja1 = new TextView(getApplicationContext());
+                                        ll.addView(spacja1);
+
+                                        TextView date = new TextView(getApplicationContext());
+                                        Date data = Travel.getDate("date");
+
+
+                                        SimpleDateFormat form = new SimpleDateFormat("dd/MM/yyyy");
+
+
+                                        String str = form.format(data); // or if you want to save it in String str
+
+                                        date.setText("Date: " + str);
+                                        ll.addView(date);
+
+                                        TextView spacja2 = new TextView(getApplicationContext());
+                                        ll.addView(spacja2);
+
+
+                                        TextView price = new TextView(getApplicationContext());
+                                        Number TravelPrice = Travel.getNumber("price");
+                                        String numberAsString = String.valueOf(TravelPrice);
+                                        price.setText("Final price: " + numberAsString);
+                                        price.setTypeface(null, Typeface.BOLD);
+                                        ll.addView(price);
+
+                                        TextView spacja3 = new TextView(getApplicationContext());
+                                        ll.addView(spacja3);
+                                        ImageView image = new ImageView(TravelsForUsers.this);
+                                        LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 720);
+
+                                        params1.gravity = Gravity.CENTER;
+                                        image.setLayoutParams(params1);
+
+
+                                        ParseFile imagex = Travel.getParseFile("imagex");
+                                        String imageUrl = imagex.getUrl();//live url
+                                        Uri imageUri = Uri.parse(imageUrl);
+                                        ll.addView(image);
+                                        Picasso.with(TravelsForUsers.this).load(imageUri.toString()).networkPolicy(NetworkPolicy.NO_CACHE)
+                                                .memoryPolicy(MemoryPolicy.NO_CACHE).into(image);
+
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+
+
+
 
     private void view_all_buttonClicked() {
 
 
         ll.removeAllViews();
+
+
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Trip");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> TravelsList, ParseException e) {
@@ -204,13 +345,14 @@ public class TravelsForUsers extends AppCompatActivity {
 
                         b.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(View v) {
+                            public void onClick(final View v) {
                                 ll.removeAllViews();
 
                                 current_travel = Travel;
 
                                 TextView title = new TextView(getApplicationContext());
                                 title.setText("Travel Title:");
+                                System.out.println("TRAVEL ID:  " + Travel.getObjectId());
                                 title.setTextSize(18);
                                 ll.addView(title);
                                 title.setTypeface(null, Typeface.BOLD);
@@ -272,6 +414,81 @@ public class TravelsForUsers extends AppCompatActivity {
                                 ll.addView(image);
                                 Picasso.with(TravelsForUsers.this).load(imageUri.toString()).networkPolicy(NetworkPolicy.NO_CACHE)
                                         .memoryPolicy(MemoryPolicy.NO_CACHE).into(image);
+
+
+                                final Button reserve = new Button(getApplicationContext());
+                                reserve.setText("Buy Travel");
+                                reserve.setTypeface(null, Typeface.BOLD);
+                                reserve.setTextColor(Color.WHITE);
+                                Drawable roundDrawable = getResources().getDrawable(R.drawable.rounded2);
+                                reserve.setBackground(roundDrawable);
+                                reserve.setVisibility(View.VISIBLE);
+                                ll.addView(reserve);
+
+                                ParseQuery<ParseObject> queryx = ParseQuery.getQuery("Reservations");
+                                queryx.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
+                                queryx.findInBackground(new FindCallback<ParseObject>() {
+
+                                    @Override
+                                    public void done(List<ParseObject> Zarezerwowane, ParseException e) {
+                                        for (ParseObject rezerwy : Zarezerwowane) {
+
+
+                                            if (rezerwy.getString("username").equals(ParseUser.getCurrentUser().getUsername()) && rezerwy.getString("travel_id").equals(Travel.getObjectId())) {
+                                                reserve.setVisibility(View.INVISIBLE);
+                                            }
+                                        }
+
+                                        reserve.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                AlertDialog.Builder builder = new AlertDialog.Builder(TravelsForUsers.this)
+                                                        .setTitle("Send " + Travel.getNumber("price") + "$ to")
+                                                        .setMessage("Bank account: 123123123\nPayment title: " + Travel.getString("title") + " " + ParseUser.getCurrentUser())
+                                                        .setPositiveButton("I'm buying", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                ParseObject rezerwacja = new ParseObject("Reservations");
+                                                                rezerwacja.put("username", ParseUser.getCurrentUser().getUsername());
+                                                                rezerwacja.put("travel_id", Travel.getObjectId());
+                                                                rezerwacja.put("travel_name", Travel.getString("title"));
+                                                                rezerwacja.put("price", Travel.getNumber("price"));
+                                                                rezerwacja.put("date", Travel.getDate("date"));
+                                                                rezerwacja.put("status", "queue");
+
+                                                                final ProgressDialog dlg = new ProgressDialog(TravelsForUsers.this);
+                                                                dlg.setTitle("Please, wait a moment.");
+                                                                dlg.setMessage("Uploading...");
+                                                                dlg.show();
+                                                                rezerwacja.saveInBackground(new SaveCallback() {
+                                                                    public void done(ParseException e) {
+                                                                        if (e == null) {
+
+                                                                            dlg.dismiss();
+                                                                            view_all_buttonClicked();
+                                                                        } else {
+
+                                                                            dlg.dismiss();
+
+                                                                            view_all_buttonClicked();
+                                                                        }
+                                                                    }
+                                                                });
+
+
+                                                            }
+
+
+                                                        });
+
+
+                                                AlertDialog ok = builder.create();
+                                                ok.show();
+                                            }
+                                        });
+                                    }
+                                });
+
 
 
 //                                        ImageView image = findViewById(R.id.imageView);

@@ -148,7 +148,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     //JESLI JEST ODPOWIEDZ OD SERWERA -> stworz okienko ze udalo sie zalogowac
 
-                    alertDisplayer("Succesful login", "Welcome back" + usernameView.getText().toString() + "!");
+                    alertDisplayer("Succesful login", "Welcome back " + usernameView.getText().toString() + "!");
 
                 } else {
                     sukces[0] = false;
