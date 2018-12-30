@@ -15,6 +15,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -24,7 +26,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -50,6 +51,14 @@ public class AdminPanel extends AppCompatActivity {
     private static final int PICK_IMAGE = 100;
     ParseObject current_travel;
     private Button mod_date;
+    final Boolean[] titlecheck = {false};
+    final Boolean[] summarycheck = {false};
+    final Boolean[] pricecheck = {false};
+    String goal = "modyfikuj";
+    ParseFile img_rdy;
+    Date date_rdy;
+    Boolean datecheck = false;
+    Boolean imgcheck = false;
     private int mYear, mMonth, mDay;
     private Button info_button;
     //Aleks DO TESTOW UTWORZONE METODY
@@ -66,18 +75,32 @@ public class AdminPanel extends AppCompatActivity {
 
     //view button listener
 //modyfikuj obrazek button listener
-    private Button mod_image;
+
     private View.OnClickListener mod_imageOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             mod_imageButtonClicked();
         }
     };
-
-    //modify button listener
+    private Button mod_image;
     private Button mod_summary;
     private Button mod_price;
     private Button mod_title;
+    private Button add_travel;
+
+
+    private View.OnClickListener add_travelOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            add_travelButtonClicked();
+        }
+    };
+
+
+
+
+
     private View.OnClickListener modifyOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -136,12 +159,15 @@ public class AdminPanel extends AppCompatActivity {
         mod_title = findViewById(R.id.mod_title);
         info_button = findViewById(R.id.info);
         mod_date = findViewById(R.id.datepicker);
+        add_travel = findViewById(R.id.add);
         modify.setEnabled(false);
+
 
         ll = findViewById(R.id.layoutinside);
 
-
         info_buttonClicked();
+
+
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId(getString(R.string.back4app_app_id))
                 // if defined
@@ -164,10 +190,204 @@ public class AdminPanel extends AppCompatActivity {
         mod_title.setOnClickListener(mod_titleOnClickListener);
         info_button.setOnClickListener(info_buttonOnClickListener);
         mod_date.setOnClickListener(mod_dateOnClickListener);
+        add_travel.setOnClickListener(add_travelOnClickListener);
 
 
     }
 
+    private void add_travelButtonClicked() {
+
+        datecheck = false;
+        imgcheck = false;
+        titlecheck[0] = false;
+        summarycheck[0] = false;
+        pricecheck[0] = false;
+        final ParseObject Travel = new ParseObject("Trip");
+        // create an alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Travel add menu");
+
+        // set the custom layout
+        final View customLayout = getLayoutInflater().inflate(R.layout.alert_add_travel, null);
+        builder.setView(customLayout);
+        Button mod_image = customLayout.findViewById(R.id.imageadd);
+        Button mod_date = customLayout.findViewById(R.id.dateadd);
+        Button verify_data = customLayout.findViewById(R.id.verify);
+
+
+        final EditText title = customLayout.findViewById(R.id.title);
+        final EditText summary = customLayout.findViewById(R.id.summary);
+        final EditText price = customLayout.findViewById(R.id.price);
+        // add a button
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+
+        builder.setPositiveButton("Add Travel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+
+                Travel.put("title", title.getText().toString());
+                Travel.put("summary", summary.getText().toString());
+                int number = Integer.parseInt(price.getText().toString());
+                Travel.put("price", number);
+
+//ZABLOKOWANE NA PRZYROST 3
+//                Travel.put("image",img_rdy);
+                Travel.put("date", date_rdy);
+
+                Travel.saveInBackground();
+            }
+        });
+
+        // create and show the alert dialog
+        final AlertDialog dialog = builder.create();
+
+        View.OnClickListener verifyOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checking()) {
+                    Button okButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                    okButton.setEnabled(true);
+                }
+            }
+        };
+        View.OnClickListener mod_imagexOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goal = "dodaj";
+                openGallery();
+
+
+            }
+        };
+        View.OnClickListener mod_dateeOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goal = "dodaj";
+                btnDatePickerClicked();
+
+            }
+        };
+
+        mod_date.setOnClickListener(mod_dateeOnClickListener);
+        mod_image.setOnClickListener(mod_imagexOnClickListener);
+        verify_data.setOnClickListener(verifyOnClickListener);
+        //czy title ok
+        title.addTextChangedListener(new TextWatcher() {
+            private void handleText() {
+                // Grab the button
+                Button okButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                if (title.getText().toString().equals("") || title.getText().toString().equals("Title")) {
+                    okButton.setEnabled(false);
+                    titlecheck[0] = false;
+                } else {
+                    titlecheck[0] = true;
+                    System.out.println("title ok");
+
+                }
+            }
+
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                handleText();
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Nothing to do
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Nothing to do
+            }
+        });
+
+//czy summary ok
+
+        summary.addTextChangedListener(new TextWatcher() {
+            private void handleText() {
+                // Grab the button
+                Button okButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                if (summary.getText().toString().equals("") || summary.getText().toString().equals("Summary")) {
+                    okButton.setEnabled(false);
+                    summarycheck[0] = false;
+                } else {
+                    summarycheck[0] = true;
+                    System.out.println("summary ok");
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                handleText();
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Nothing to do
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Nothing to do
+            }
+        });
+
+        //czy price ok
+
+
+        price.addTextChangedListener(new TextWatcher() {
+            private void handleText() {
+                // Grab the button
+                String test = price.getText().toString();
+                Button okButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                if (price.getText().toString().equals("") || price.getText().toString().equals("0")) {
+                    okButton.setEnabled(false);
+                    pricecheck[0] = false;
+                } else {
+                    if (!(test.charAt(0) == '0'))
+                        pricecheck[0] = true;
+
+
+                    System.out.println("Price ok");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                handleText();
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Nothing to do
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Nothing to do
+            }
+        });
+
+
+        dialog.show();
+        Button okeButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        okeButton.setEnabled(false);
+
+    }
+
+    public Boolean checking() {
+        return pricecheck[0] == true && titlecheck[0] == true && summarycheck[0] == true && datecheck == true;
+    }
     private void info_buttonClicked() {
         ll.removeAllViews();
         modify.setEnabled(false);
@@ -391,12 +611,12 @@ public class AdminPanel extends AppCompatActivity {
 //DATE
         mod_date.setVisibility(View.VISIBLE);
 
-
+        goal = "modify";
     }
 
 
     private void mod_imageButtonClicked() {
-
+        goal = "modyfikuj";
         openGallery();
 
     }
@@ -442,41 +662,44 @@ public class AdminPanel extends AppCompatActivity {
 
             final byte[] image = stream.toByteArray();
             final ParseFile image_ready = new ParseFile("r.png", image);
-            ParseQuery<ParseObject> query = ParseQuery.getQuery("Trip");
+            if (goal.equals("modyfikuj")) {
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("Trip");
 
 
-            query.getInBackground(current_travel.getObjectId(), new GetCallback<ParseObject>() {
-                public void done(ParseObject Travel, ParseException e) {
-                    if (e == null) {
+                query.getInBackground(current_travel.getObjectId(), new GetCallback<ParseObject>() {
+                    public void done(ParseObject Travel, ParseException e) {
+                        if (e == null) {
 
-                        Travel.put("imagex", image_ready);
+                            Travel.put("imagex", image_ready);
 
-                        final ProgressDialog dlg = new ProgressDialog(AdminPanel.this);
-                        dlg.setTitle("Please, wait a moment.");
-                        dlg.setMessage("Uploading...");
-                        dlg.show();
-                        Travel.saveInBackground(new SaveCallback() {
-                            public void done(ParseException e) {
-                                if (e == null) {
+                            final ProgressDialog dlg = new ProgressDialog(AdminPanel.this);
+                            dlg.setTitle("Please, wait a moment.");
+                            dlg.setMessage("Uploading...");
+                            dlg.show();
+                            Travel.saveInBackground(new SaveCallback() {
+                                public void done(ParseException e) {
+                                    if (e == null) {
 
-                                    dlg.dismiss();
-                                    view_all_buttonClicked();
-                                } else {
+                                        dlg.dismiss();
+                                        view_all_buttonClicked();
+                                    } else {
 
-                                    dlg.dismiss();
-                                    ParseUser.logOut();
-                                    Toast.makeText(AdminPanel.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                                    view_all_buttonClicked();
+                                        dlg.dismiss();
+
+                                        view_all_buttonClicked();
+                                    }
                                 }
-                            }
-                        });
+                            });
 
+
+                        }
 
                     }
-
-                }
-            });
-
+                });
+            } else {
+                img_rdy = image_ready;
+                imgcheck = true;
+            }
 
         }
     }
@@ -548,8 +771,27 @@ public class AdminPanel extends AppCompatActivity {
                         if (e == null) {
 
                             Travel.put("summary", input.getText().toString());
-                            Travel.saveInBackground();
-                            view_all_buttonClicked();
+
+                            final ProgressDialog dlg = new ProgressDialog(AdminPanel.this);
+                            dlg.setTitle("Please, wait a moment.");
+                            dlg.setMessage("Changing description...");
+                            dlg.show();
+
+                            Travel.saveInBackground(new SaveCallback() {
+                                public void done(ParseException e) {
+                                    if (e == null) {
+
+                                        dlg.dismiss();
+                                        view_all_buttonClicked();
+                                    } else {
+
+                                        dlg.dismiss();
+
+                                        view_all_buttonClicked();
+                                    }
+                                }
+                            });
+
                         }
                     }
                 });
@@ -562,7 +804,9 @@ public class AdminPanel extends AppCompatActivity {
             }
         });
 
-        alert.show();
+        AlertDialog kukle = alert.show();
+
+
     }
 
 
@@ -588,8 +832,28 @@ public class AdminPanel extends AppCompatActivity {
                         if (e == null) {
                             int number = Integer.parseInt(input.getText().toString());
                             Travel.put("price", number);
-                            Travel.saveInBackground();
-                            view_all_buttonClicked();
+
+
+                            final ProgressDialog dlg = new ProgressDialog(AdminPanel.this);
+                            dlg.setTitle("Please, wait a moment.");
+                            dlg.setMessage("Changing price...");
+                            dlg.show();
+
+                            Travel.saveInBackground(new SaveCallback() {
+                                public void done(ParseException e) {
+                                    if (e == null) {
+
+                                        dlg.dismiss();
+                                        view_all_buttonClicked();
+                                    } else {
+
+                                        dlg.dismiss();
+
+                                        view_all_buttonClicked();
+                                    }
+                                }
+                            });
+
                         }
                     }
                 });
@@ -629,8 +893,25 @@ public class AdminPanel extends AppCompatActivity {
                         if (e == null) {
 
                             Travel.put("title", input.getText().toString());
-                            Travel.saveInBackground();
-                            view_all_buttonClicked();
+                            final ProgressDialog dlg = new ProgressDialog(AdminPanel.this);
+                            dlg.setTitle("Please, wait a moment.");
+                            dlg.setMessage("Changing title...");
+                            dlg.show();
+
+                            Travel.saveInBackground(new SaveCallback() {
+                                public void done(ParseException e) {
+                                    if (e == null) {
+
+                                        dlg.dismiss();
+                                        view_all_buttonClicked();
+                                    } else {
+
+                                        dlg.dismiss();
+
+                                        view_all_buttonClicked();
+                                    }
+                                }
+                            });
                         }
                     }
                 });
@@ -672,22 +953,44 @@ public class AdminPanel extends AppCompatActivity {
                         } catch (java.text.ParseException e) {
                             e.printStackTrace();
                         }
-
-
-                        ParseQuery<ParseObject> query = ParseQuery.getQuery("Trip");
-
-
                         final Date finalDate = date1;
-                        query.getInBackground(current_travel.getObjectId(), new GetCallback<ParseObject>() {
-                            public void done(ParseObject Travel, ParseException e) {
-                                if (e == null) {
+                        if (goal.equals("modyfikuj")) {
+                            ParseQuery<ParseObject> query = ParseQuery.getQuery("Trip");
 
-                                    Travel.put("date", finalDate);
-                                    Travel.saveInBackground();
-                                    view_all_buttonClicked();
+
+                            query.getInBackground(current_travel.getObjectId(), new GetCallback<ParseObject>() {
+                                public void done(ParseObject Travel, ParseException e) {
+                                    if (e == null) {
+
+                                        Travel.put("date", finalDate);
+                                        final ProgressDialog dlg = new ProgressDialog(AdminPanel.this);
+                                        dlg.setTitle("Please, wait a moment.");
+                                        dlg.setMessage("Changing date...");
+                                        dlg.show();
+
+                                        Travel.saveInBackground(new SaveCallback() {
+                                            public void done(ParseException e) {
+                                                if (e == null) {
+
+                                                    dlg.dismiss();
+                                                    view_all_buttonClicked();
+                                                } else {
+
+                                                    dlg.dismiss();
+
+                                                    view_all_buttonClicked();
+                                                }
+                                            }
+                                        });
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        } else {
+                            date_rdy = finalDate;
+                            datecheck = true;
+
+
+                        }
 
 
                     }

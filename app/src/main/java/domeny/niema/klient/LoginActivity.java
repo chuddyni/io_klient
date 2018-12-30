@@ -20,6 +20,8 @@ import com.parse.ParseUser;
 public class LoginActivity extends AppCompatActivity {
     private EditText usernameView;
     private EditText passwordView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
                 .build()
 
         );
+
 
         usernameView = findViewById(R.id.username);
         passwordView = findViewById(R.id.password);
@@ -62,29 +65,12 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                //Setting up a progress dialog
-                final ProgressDialog dlg = new ProgressDialog(LoginActivity.this);
-                dlg.setTitle("Please, wait a moment.");
-                dlg.setMessage("Logging in...");
-                dlg.show();
 
-                ParseUser.logInInBackground(usernameView.getText().toString(), passwordView.getText().toString(), new LogInCallback() {
-                    @Override
-                    public void done(ParseUser parseUser, ParseException e) {
-                        if (parseUser != null) {
-                            dlg.dismiss();
+                String login = usernameView.getText().toString();
+                String haslo = passwordView.getText().toString();
+                loginbuttonClicked(login, haslo);
 
 
-
-                            alertDisplayer(title,message + usernameView.getText().toString() + "!");
-
-                        } else {
-                            dlg.dismiss();
-                            ParseUser.logOut();
-                            Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
             }
 
 
@@ -120,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
         return text.getText().toString().trim().length() <= 0;
     }
 
-    private void alertDisplayer(String title,String message){
+    public void alertDisplayer(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this)
                 .setTitle(title)
                 .setMessage(message)
@@ -144,4 +130,36 @@ public class LoginActivity extends AppCompatActivity {
         AlertDialog ok = builder.create();
         ok.show();
     }
+
+    protected boolean loginbuttonClicked(final String login, final String haslo) {
+        final boolean[] sukces = new boolean[1];
+        //Setting up a progress dialog
+        final ProgressDialog dlg = new ProgressDialog(LoginActivity.this);
+        dlg.setTitle("Please, wait a moment.");
+        dlg.setMessage("Logging in...");
+        dlg.show();
+
+        ParseUser.logInInBackground(usernameView.getText().toString(), passwordView.getText().toString(), new LogInCallback() {
+            @Override
+            public void done(ParseUser parseUser, ParseException e) {
+                if (parseUser != null) {
+                    sukces[0] = true;
+                    dlg.dismiss();
+
+                    //JESLI JEST ODPOWIEDZ OD SERWERA -> stworz okienko ze udalo sie zalogowac
+
+                    alertDisplayer("Succesful login", "Welcome back" + usernameView.getText().toString() + "!");
+
+                } else {
+                    sukces[0] = false;
+                    dlg.dismiss();
+                    ParseUser.logOut();
+                    Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        return sukces[0];
+    }
+
+
 }

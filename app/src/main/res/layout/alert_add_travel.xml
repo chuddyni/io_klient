@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
+
+
+    <EditText
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        android:text="Title" />
+
+    <EditText
+        android:id="@+id/summary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+        android:text="Summary" />
+
+    <EditText
+        android:id="@+id/price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:digits="0123456789."
+        android:inputType="number"
+        android:text="0" />
+
+    <Button
+        android:id="@+id/imageadd"
+        android:layout_width="344dp"
+        android:layout_height="31dp"
+        android:background="@drawable/rounded2"
+        android:enabled="true"
+        android:text="Pick image"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="14sp"
+
+        android:typeface="serif"
+        android:visibility="visible" />
+
+    <Button
+        android:id="@+id/dateadd"
+        android:layout_width="344dp"
+        android:layout_height="33dp"
+        android:background="@drawable/rounded2"
+        android:enabled="true"
+        android:text="Pick date"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="14sp"
+        android:typeface="serif"
+
+        android:visibility="visible" />
+
+    <Button
+        android:id="@+id/verify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Verify data" />
+
+</LinearLayout>
+

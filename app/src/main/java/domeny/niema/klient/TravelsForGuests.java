@@ -162,7 +162,7 @@ public class TravelsForGuests extends AppCompatActivity {
         // logging out of Parse
         ParseUser.logOut();
 
-        alertDisplayer("So, you're going...", "Ok...Bye-bye then");
+        alertDisplayer("So you want to sign up?", "Please do that!");
 
 
     }
