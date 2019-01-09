@@ -1,7 +1,8 @@
 language: android
 sudo: required
 before_install:
- - chmod +x gradlew
+- chmod +x gradlew
+- yes | sdkmanager "platforms;android-27"
 android:
   components:
     # Uncomment the lines below if you want to
