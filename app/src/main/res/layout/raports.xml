@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdminActivity">
+
+    <Button
+        android:id="@+id/logout_button"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="41dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="9dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toStartOf="@+id/info"
+        android:layout_toEndOf="@+id/show_reservations"
+        android:text="Logout"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/info"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="41dp"
+        android:layout_alignTop="@+id/show_reservations"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="0dp"
+        android:text="INFO"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/back"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="41dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="191dp"
+        android:layout_marginBottom="0dp"
+        android:text="BACK"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/generate_raport"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="84dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="39dp"
+        android:text="Make\nraport" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="346dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView5"
+        android:layout_alignEnd="@+id/info"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="13dp"
+        android:text="Raport will be exported to txt file with convinient formatting for Microsoft Excel" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="78dp"
+        android:text="You can generate raport which will include:\n- All registered users\n- This month gains\n- This month reservations\n- This year gains" />
+
+    <TextView
+        android:id="@+id/monthreservations"
+        android:layout_width="126dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="186dp"
+        android:layout_marginTop="45dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/monthgains"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="143dp"
+        android:layout_marginTop="18dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="17dp"
+        android:text="This month gains:" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/monthreservations"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="0dp"
+        android:text="This month reservations:" />
+
+</RelativeLayout>

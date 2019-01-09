@@ -1,8 +1,6 @@
 package domeny.niema.klient;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -59,73 +57,80 @@ public class SignUpActivity extends AppCompatActivity {
 
 
         final Button signup_button = findViewById(R.id.signup_button);
-        signup_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Validating the log in data
-                boolean validationError = false;
 
-                StringBuilder validationErrorMessage = new StringBuilder("Please, insert ");
-                if (isEmpty(usernameView)) {
-                    validationError = true;
-                    validationErrorMessage.append("an username");
-                }
-                if (isEmpty(passwordView)) {
-                    if (validationError) {
-                        validationErrorMessage.append(" and ");
+        if (CheckInternet.isOnline()) {
+            signup_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Validating the log in data
+                    boolean validationError = false;
+
+                    StringBuilder validationErrorMessage = new StringBuilder("Please, insert ");
+                    if (isEmpty(usernameView)) {
+                        validationError = true;
+                        validationErrorMessage.append("an username");
                     }
-                    validationError = true;
-                    validationErrorMessage.append("a password");
-                }
-                if (isEmpty(passwordAgainView)) {
-                    if (validationError) {
-                        validationErrorMessage.append(" and ");
-                    }
-                    validationError = true;
-                    validationErrorMessage.append("your password again");
-                }
-                else {
-                    if (!isMatching(passwordView, passwordAgainView)) {
+                    if (isEmpty(passwordView)) {
                         if (validationError) {
                             validationErrorMessage.append(" and ");
                         }
                         validationError = true;
-                        validationErrorMessage.append("the same password twice.");
+                        validationErrorMessage.append("a password");
                     }
-                }
-                validationErrorMessage.append(".");
-
-                if (validationError) {
-                    Toast.makeText(SignUpActivity.this, validationErrorMessage.toString(), Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                //Setting up a progress dialog
-                final ProgressDialog dlg = new ProgressDialog(SignUpActivity.this);
-                dlg.setTitle("Please, wait a moment.");
-                dlg.setMessage("Signing up...");
-                dlg.show();
-
-                ParseUser user = new ParseUser();
-                user.setUsername(usernameView.getText().toString());
-                user.setPassword(passwordView.getText().toString());
-                user.signUpInBackground(new SignUpCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            dlg.dismiss();
-                            alertDisplayer("Sucessful Login","Welcome " + usernameView.getText().toString() + "!");
-
-                        } else {
-                            dlg.dismiss();
-                            ParseUser.logOut();
-                            Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    if (isEmpty(passwordAgainView)) {
+                        if (validationError) {
+                            validationErrorMessage.append(" and ");
+                        }
+                        validationError = true;
+                        validationErrorMessage.append("your password again");
+                    } else {
+                        if (!isMatching(passwordView, passwordAgainView)) {
+                            if (validationError) {
+                                validationErrorMessage.append(" and ");
+                            }
+                            validationError = true;
+                            validationErrorMessage.append("the same password twice.");
                         }
                     }
-                });
+                    validationErrorMessage.append(".");
 
-            }
-        });
+                    if (validationError) {
+                        Toast.makeText(SignUpActivity.this, validationErrorMessage.toString(), Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    //Setting up a progress dialog
+                    final ProgressDialog dlg = new ProgressDialog(SignUpActivity.this);
+                    dlg.setTitle("Please, wait a moment.");
+                    dlg.setMessage("Signing up...");
+                    dlg.show();
+
+                    ParseUser user = new ParseUser();
+                    user.setUsername(usernameView.getText().toString());
+                    user.setPassword(passwordView.getText().toString());
+                    user.signUpInBackground(new SignUpCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                dlg.dismiss();
+                                Intent intent = new Intent(SignUpActivity.this, UserActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+
+                            } else {
+                                dlg.dismiss();
+                                ParseUser.logOut();
+                                Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+
+                }
+            });
+        } else {
+            Toast.makeText(SignUpActivity.this, "No internet connection, trying again", Toast.LENGTH_LONG).show();
+
+        }
     }
 
     private boolean isEmpty(EditText text) {
@@ -136,20 +141,5 @@ public class SignUpActivity extends AppCompatActivity {
         return text1.getText().toString().equals(text2.getText().toString());
     }
 
-    private void alertDisplayer(String title,String message){
-        AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this)
-                .setTitle(title)
-                .setMessage(message)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                        Intent intent = new Intent(SignUpActivity.this, TravelsForUsers.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                    }
-                });
-        AlertDialog ok = builder.create();
-        ok.show();
-    }
+
 }

@@ -32,10 +32,11 @@
             android:value="@string/back4app_client_key" />
         android:name=".App"
         <activity android:name=".SignUpActivity" />
-        <activity android:name=".TravelsForUsers" />
-        <activity android:name=".AdminPanel" />
+        <activity android:name=".UserActivity" />
+        <activity android:name=".AdminActivity" />
+        <activity android:name=".Raports" />
         <activity
-            android:name=".TravelsForGuests"
+            android:name=".GuestActivity"
             android:label="@string/title_activity_travels_for_guests"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

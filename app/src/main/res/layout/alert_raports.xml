@@ -10,34 +10,34 @@
     <EditText
         android:id="@+id/title"
 
-        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ .,-"
-        android:hint="Title"
-        android:imeOptions="actionDone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="5dp"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ .,-"
+        android:hint="Title"
+        android:imeOptions="actionDone"
         android:inputType="text"
         android:maxLines="1" />
 
     <EditText
         android:id="@+id/summary"
 
-        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ .,-:/\n"
-        android:hint="Summary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ .,-:/\n"
+        android:hint="Summary"
         android:imeOptions="actionNext"
 
         android:inputType="textMultiLine" />
 
     <EditText
         android:id="@+id/price"
-        android:hint="Price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:digits="0123456789."
+        android:hint="Price"
         android:imeOptions="actionDone"
         android:inputType="number" />
 
