@@ -1,5 +1,7 @@
 language: android
 sudo: required
+before_install:
+ - chmod +x gradlew
 android:
   components:
     # Uncomment the lines below if you want to
@@ -17,3 +19,4 @@ android:
     # if you need to run emulator(s) during your tests
     - sys-img-x86-android-26
     - sys-img-armeabi-v7a-android-17
+    
